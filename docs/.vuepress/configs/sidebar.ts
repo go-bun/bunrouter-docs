@@ -5,7 +5,12 @@ export const en: SidebarConfig = {
     {
       isGroup: true,
       text: 'Guide',
-      children: ['/guide/README.md', '/guide/middlewares.md', '/guide/error-handling.md'],
+      children: [
+        '/guide/README.md',
+        '/guide/middlewares.md',
+        '/guide/error-handling.md',
+        '/guide/performance-error-monitoring.md',
+      ],
     },
     {
       isGroup: true,
