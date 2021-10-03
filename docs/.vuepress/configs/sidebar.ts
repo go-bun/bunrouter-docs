@@ -7,15 +7,11 @@ export const en: SidebarConfig = {
       text: 'Guide',
       children: [
         '/guide/README.md',
+        '/guide/handlers.md',
         '/guide/middlewares.md',
         '/guide/error-handling.md',
         '/guide/performance-error-monitoring.md',
       ],
-    },
-    {
-      isGroup: true,
-      text: 'Tutorial',
-      children: ['/go-http/go-json-rest-api.md'],
     },
   ],
 }

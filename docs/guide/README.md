@@ -26,14 +26,14 @@ router.GET("/", func(w http.ResponseWriter, req bunrouter.Request) error {
 })
 ```
 
-`bunrouter.New` accepts a couple of options to customize the route:
+`bunrouter.New` accepts a couple of options to customize the router:
 
-- `WithNotFoundHandler(handler bunrouter.HandlerFunc)` - overrides the handler that is called when
+- `WithNotFoundHandler(handler bunrouter.HandlerFunc)` overrides the handler that is called when
   there are no matching routes.
-- `WithMethodNotAllowedHandler(handler bunrouter.HandlerFunc)` - overrides the handler that is
-  called when a route matches, but the route does not have a handler for the requested method.
-- `WithMiddleware(middleware bunrouter.MiddlewareFunc)` - adds the middleware to the router's stack
-  of middlewares. Router will apply the middleware to all route handlers including `NotFoundHandler`
+- `WithMethodNotAllowedHandler(handler bunrouter.HandlerFunc)` overrides the handler that is called
+  when a route matches, but the route does not have a handler for the requested method.
+- `WithMiddleware(middleware bunrouter.MiddlewareFunc)` adds the middleware to the router's stack of
+  middlewares. Router will apply the middleware to all route handlers including `NotFoundHandler`
   and `MethodNotAllowedHandler`.
 
 For example, to log requests, you can install `reqlog` middleware:
@@ -132,35 +132,50 @@ The following routes are sorted by their matching priority from the highest to t
 - `/users/:id`.
 - `/users/*path`.
 
-## Adding routes
+## Routing groups
 
 You can add routes using the `router`:
 
 ```go
-router.GET("/api/users/:id")
-router.POST("/api/users")
-router.PUT("/api/users/:id")
-router.DELETE("/api/users/:id")
+router.GET("/api/users/:id", handler)
+router.POST("/api/users", handler)
+router.PUT("/api/users/:id", handler)
+router.DELETE("/api/users/:id", handler)
 ```
 
-Or group routes by functionality and some prefix:
+But it is better to group routes by functionality under some prefix:
 
 ```go
 group := router.NewGroup("/api/users")
 
-group.GET("/:id")
-group.POST("")
-group.PUT("/:id")
-group.DELETE("/:id")
+group.GET("/:id", handler)
+group.POST("", handler)
+group.PUT("/:id", handler)
+group.DELETE("/:id", handler)
 ```
 
 Or even better:
 
 ```go
-router.WithGroup("/api/v1", func(group *bunrouter.Group) {
-    group.GET("/:id")
-    group.POST("")
-    group.PUT("/:id")
-    group.DELETE("/:id")
+router.WithGroup("/api/users", func(group *bunrouter.Group) {
+    group.GET("/:id", handler)
+    group.POST("", handler)
+    group.PUT("/:id", handler)
+    group.DELETE("/:id", handler)
 })
 ```
+
+You can also nest groups to build complex APIs:
+
+```go
+router.WithGroup("/api/categories", func(group *bunrouter.Group) {
+    // /api/categories/:category/items
+    group.WithGroup("/:category/items", func(group *bunrouter.Group) {})
+
+    // /api/categories/archive
+    group.WithGroup("/archive", func(group *bunrouter.Group) {})
+})
+```
+
+Groups can even have their own [middlewares](middlewares.md#installing-middlewares) to further
+customize request processing.
