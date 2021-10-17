@@ -1,4 +1,4 @@
-# Handlers
+# Handlers, Gzip, CORS
 
 ## Route handlers
 
@@ -11,12 +11,12 @@ type UserHandler struct{
     rateLimit int
 }
 
-func (h *UserHandler) Create(w http.ResponseWriter, req *http.Request) {}
-func (h *UserHandler) Update(w http.ResponseWriter, req *http.Request) {}
-func (h *UserHandler) Delete(w http.ResponseWriter, req *http.Request) {}
+func (h *UserHandler) Create(w http.ResponseWriter, req bunrouter.Request) error {}
+func (h *UserHandler) Update(w http.ResponseWriter, req bunrouter.Request) error {}
+func (h *UserHandler) Delete(w http.ResponseWriter, req bunrouter.Request) error {}
 
-func (h *UserHandler) Show(w http.ResponseWriter, req *http.Request) {}
-func (h *UserHandler) List(w http.ResponseWriter, req *http.Request) {}
+func (h *UserHandler) Show(w http.ResponseWriter, req bunrouter.Request) error {}
+func (h *UserHandler) List(w http.ResponseWriter, req bunrouter.Request) error {}
 ```
 
 Naturally, you can use BunRouter [groups](README.md#routing-groups) and
@@ -42,14 +42,14 @@ group.NewGroup("/users",
 
 ## Gzip compression
 
-You can compress HTTP response using
+You can compress HTTP responses using
 [gzhttp](https://github.com/klauspost/compress/tree/master/gzhttp) module:
 
 ```shell
 go get github.com/klauspost/compress
 ```
 
-All you need to do is to wrap bunrouter instance:
+All you need to do is to wrap BunRouter instance with gzhttp:
 
 ```go
 import (
@@ -113,14 +113,39 @@ handler := http.Handler(router)
 handler = cors.Default().Handler(handler)
 ```
 
+## File server
+
+You can use [http.FileServer](https://pkg.go.dev/net/http#FileServer) with BunRouter's concise API
+with the help of
+[bunrouter.HTTPHandler](https://pkg.go.dev/github.com/uptrace/bunrouter#HTTPHandler) converter, for
+[example](https://github.com/uptrace/bunrouter/tree/master/example/file-server):
+
+```go
+//go:embed files
+var filesFS embed.FS
+
+func main() {
+	fileServer := http.FileServer(http.FS(filesFS))
+
+	router := bunrouter.New(
+		bunrouter.WithMiddleware(reqlog.NewMiddleware(
+			reqlog.FromEnv("BUNDEBUG"),
+		)),
+	)
+
+	router.GET("/", indexHandler)
+	router.GET("/files/*path", bunrouter.HTTPHandler(fileServer))
+}
+```
+
 ## Panic recovering
 
 <!-- prettier-ignore -->
 ::: warning
-Panics are exceptional situations that can leave you app in a broken state. It may be better to let the app crash then to recover it.
+Panics are exceptional situations that can leave you app in a broken state. It may be better to let the app crash and restart it then to recover.
 :::
 
-You can recover from panics in your handlers like this:
+You can recover from panics in HTTP handlers like this:
 
 ```go
 type PanicHandler struct {

@@ -41,8 +41,8 @@ func middleware(next bunrouter.HandlerFunc) bunrouter.HandlerFunc {
 Or you can write a middleware that handles CORS requests:
 
 ```go
-func corsMiddleware(next treemux.HandlerFunc) treemux.HandlerFunc {
-	return func(w http.ResponseWriter, req treemux.Request) error {
+func corsMiddleware(next bunrouter.HandlerFunc) bunrouter.HandlerFunc {
+	return func(w http.ResponseWriter, req bunrouter.Request) error {
 		if origin := req.Header.Get("Origin"); origin != "" {
 			h := w.Header()
 			h.Set("Access-Control-Allow-Origin", origin)
@@ -113,8 +113,8 @@ You can use `WithContext` to pass data to the next handler:
 ```go
 type userCtxKey struct{}
 
-func authMiddleware(next treemux.HandlerFunc) treemux.HandlerFunc {
-	return func(w http.ResponseWriter, req treemux.Request) error {
+func authMiddleware(next bunrouter.HandlerFunc) bunrouter.HandlerFunc {
+	return func(w http.ResponseWriter, req bunrouter.Request) error {
         ctx := req.Context()
 		ctx = context.WithValue(ctx, userCtxKey{}, user)
         return next(w, req.WithContext(ctx))
@@ -131,8 +131,8 @@ type ErrorPayload struct {
     data map[string]interface{}
 }
 
-func debugMiddleware(next treemux.HandlerFunc) treemux.HandlerFunc {
-	return func(w http.ResponseWriter, req treemux.Request) error {
+func debugMiddleware(next bunrouter.HandlerFunc) bunrouter.HandlerFunc {
+	return func(w http.ResponseWriter, req bunrouter.Request) error {
         err := next(w, req)
         return &ErrorPayload{error: err, data: nil}
     }

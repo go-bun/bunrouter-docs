@@ -7,9 +7,12 @@ export const en: SidebarConfig = {
       text: 'Guide',
       children: [
         '/guide/README.md',
+        '/guide/getting-started.md',
         '/guide/handlers.md',
         '/guide/middlewares.md',
         '/guide/error-handling.md',
+        '/guide/debugging.md',
+        '/guide/go-zero-downtime-restarts.md',
         '/guide/performance-error-monitoring.md',
       ],
     },
