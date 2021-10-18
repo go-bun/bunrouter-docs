@@ -113,31 +113,6 @@ handler := http.Handler(router)
 handler = cors.Default().Handler(handler)
 ```
 
-## File server
-
-You can use [http.FileServer](https://pkg.go.dev/net/http#FileServer) with BunRouter's concise API
-with the help of
-[bunrouter.HTTPHandler](https://pkg.go.dev/github.com/uptrace/bunrouter#HTTPHandler) converter, for
-[example](https://github.com/uptrace/bunrouter/tree/master/example/file-server):
-
-```go
-//go:embed files
-var filesFS embed.FS
-
-func main() {
-	fileServer := http.FileServer(http.FS(filesFS))
-
-	router := bunrouter.New(
-		bunrouter.WithMiddleware(reqlog.NewMiddleware(
-			reqlog.FromEnv("BUNDEBUG"),
-		)),
-	)
-
-	router.GET("/", indexHandler)
-	router.GET("/files/*path", bunrouter.HTTPHandler(fileServer))
-}
-```
-
 ## Panic recovering
 
 <!-- prettier-ignore -->
