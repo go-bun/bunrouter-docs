@@ -48,7 +48,6 @@ func main() {
 		)),
 	)
 
-	router.GET("/", indexHandler)
 	router.GET("/*path", bunrouter.HTTPHandler(fileServer))
 }
 ```
@@ -78,7 +77,6 @@ func main() {
 		)),
 	)
 
-	router.GET("/", indexHandler)
 	router.GET("/static/files/*path", bunrouter.HTTPHandler(fileServer))
 }
 ```

@@ -105,13 +105,15 @@ handler = CORSHandler{Next: handler}
 Alternatively, you can use [cors](https://github.com/rs/cors) module:
 
 ```go
-import "github.com/rs/cors""
+import "github.com/rs/cors"
 
 router := bunrouter.New()
 
 handler := http.Handler(router)
 handler = cors.Default().Handler(handler)
 ```
+
+See [example](https://github.com/uptrace/bunrouter/tree/master/example/cors) for details.
 
 ## Panic recovering
 

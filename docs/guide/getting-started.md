@@ -1,5 +1,7 @@
 # Getting started
 
+[[toc]]
+
 ## Installation
 
 ```go
@@ -49,7 +51,7 @@ router := bunrouter.New(
 )
 ```
 
-You define routes by specifying a request method and a [routing rule](#routing-rules), for
+You define routes by specifying a HTTP method and a [routing rule](#routing-rules), for
 [example](https://github.com/uptrace/bunrouter/tree/master/example/basic):
 
 ```go
@@ -59,9 +61,37 @@ router.PUT("/users/:id", updateUserHandler)
 router.DELETE("/users/:id", deleteUserHandler)
 ```
 
+### Handlers
+
+`bunrouter.HandlerFunc` is a slightly enhanced version of `http.HandlerFunc` that accepts
+`bunrouter.Request` and returns an error that you can handle with [middlewares](middlewares.md):
+
+```go
+func handler(w http.ResponseWriter, req bunrouter.Request) error {
+    return nil
+}
+```
+
+`bunrouter.Request` is a thin wrapper over `*http.Request` with route name and params:
+
+```go
+type Request struct {
+	*http.Request
+	params Params
+}
+```
+
+`bunrouter.HandlerFunc` implements `http.Handler` interface and can be used with standard HTTP
+middlewares. BunRouter also provides the following helpers to work with `bunrouter.HandlerFunc`:
+
+- [bunrouter.HTTPHandler](https://pkg.go.dev/github.com/uptrace/bunrouter#HTTPHandler) converts
+  `http.Handler` to `bunrouter.HandlerFunc`.
+- [bunrouter.HTTPHandlerFunc](https://pkg.go.dev/github.com/uptrace/bunrouter#HTTPHandlerFunc)
+  converts `http.HandlerFunc` to `bunrouter.HandlerFunc`.
+
 ### Compat handlers
 
-You can also use `http.HandlerFunc` handlers in compatibility mode, for
+Using compatibility API, you can directly work with `http.HandlerFunc` handlers, for
 [example](https://github.com/uptrace/bunrouter/tree/master/example/basic-compat):
 
 ```go
@@ -97,7 +127,37 @@ BunRouter supports the following param types:
 - `*param` is a wildcard parameter that matches everything and must always be at the end of the
   route.
 
-You can retrieve the matched route params using `Params` method:
+```
+Route: /static
+
+  /static          match
+  /static/         redirect to /static
+
+Route: /static/
+
+  /static          redirect to /static/
+  /static/         match
+
+Route: /users/:id
+
+  /users           no match
+  /users/          no match
+  /users/123       match
+  /users/foo       match
+  /users/foo-bar   match
+  /users/foo/bar   no match
+
+Route: /static/*path
+
+  /static          redirect to /static/
+  /static/         match
+  /static/foo      match
+  /static/foo-bar  match
+  /static/foo/bar  match
+```
+
+You can retrieve the matched route params using
+[Params](https://pkg.go.dev/github.com/uptrace/bunrouter#Params) method:
 
 ```go
 func handler(w http.ResponseWriter, req bunrouter.Request) error {

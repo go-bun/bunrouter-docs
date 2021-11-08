@@ -45,6 +45,7 @@ export default defineUserConfig<DefaultThemeOptions>({
         componentsDir: path.resolve(__dirname, './components'),
       },
     ],
+    ['vuepress-plugin-sitemap2', { hostname: 'https://bunrouter.uptrace.dev' }],
   ],
   clientAppEnhanceFiles: path.resolve(__dirname, './clientAppEnhance.ts'),
 })
