@@ -38,16 +38,29 @@ func middleware(next bunrouter.HandlerFunc) bunrouter.HandlerFunc {
 }
 ```
 
-Or you can write a middleware that handles CORS requests:
+Or you can write a fully functional CORS middleware:
 
 ```go
 func corsMiddleware(next bunrouter.HandlerFunc) bunrouter.HandlerFunc {
 	return func(w http.ResponseWriter, req bunrouter.Request) error {
-		if origin := req.Header.Get("Origin"); origin != "" {
-			h := w.Header()
-			h.Set("Access-Control-Allow-Origin", origin)
-			h.Set("Access-Control-Allow-Credentials", "true")
+		origin := req.Header.Get("Origin")
+		if origin == "" {
+			return next(w, req)
 		}
+
+		h := w.Header()
+
+		h.Set("Access-Control-Allow-Origin", origin)
+		h.Set("Access-Control-Allow-Credentials", "true")
+
+		// CORS preflight.
+		if req.Method == http.MethodOptions {
+			h.Set("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,HEAD")
+			h.Set("Access-Control-Allow-Headers", "authorization,content-type")
+			h.Set("Access-Control-Max-Age", "86400")
+			return nil
+		}
+
 		return next(w, req)
 	}
 }
@@ -75,11 +88,21 @@ Or for a single group that will inherit router middlewares:
 router.NewGroup("/users/:user_id",
     bunrouter.WithMiddleware(middleware1),
     bunrouter.WithMiddleware(middleware2),
-    bunrouter.WithGroup(func(g *bunrouter.Group) {}),
+    bunrouter.WithGroup(func(group *bunrouter.Group) {}),
 )
 ```
 
-You can nest groups inside each other and nested groups will inherit all parent middlewares:
+The same using different API:
+
+```go
+router.WithGroup("/users/:user_id", func(group *bunrouter.Group) {
+    group = group.WithMiddleware(middleware1).
+        .WithMiddleware(middleware2)
+})
+```
+
+You can nest groups inside each other and nested groups will inherit parent middlewares. But be
+cautious when creating deeply nested groups, because it can be hard to follow such code.
 
 ```go
 router := bunrouter.New(
@@ -103,8 +126,6 @@ group.NewGroup("/users",
     }),
 )
 ```
-
-But it is best to avoid creating too many groups or too many nesting levels.
 
 ## Passing data
 

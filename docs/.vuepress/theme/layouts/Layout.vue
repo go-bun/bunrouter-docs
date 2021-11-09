@@ -13,7 +13,7 @@
       <div class="spacer"></div>
 
       <div class="links">
-        <a href="https://uptrace.dev/" target="_blank">Tracing & Metrics</a>
+        <a href="https://opentelemetry.uptrace.dev/" target="_blank">Tracing & Metrics</a>
         <a href="https://bun.uptrace.dev/" target="_blank">SQL client</a>
         <a href="https://blog.uptrace.dev/" target="_blank">Blog</a>
       </div>

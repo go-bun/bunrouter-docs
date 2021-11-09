@@ -2,17 +2,15 @@
 
 BunRouter is an extremely fast HTTP router for Go with unique combination of features:
 
-- [Middlewares](./middlewares.md) allow to extract common operations from HTTP handlers into
+- [Middlewares](./middlewares.html) allow to extract common operations from HTTP handlers into
   reusable functions.
-- [Error handling](./error-handling.md) allows to further reduce HTTP handlers size by moving error
-  handling to middlewares.
-- [Routes priority](./getting-started.md#routes-priority) enables meaningful routing rules matching
-  priority: first static nodes, then named nodes, lastly wildcard nodes.
-- net/http compatible API means using minimal API without constructing huge wrappers that try to do
-  everything: from serving static files to XML generation (for example, `gin.Context` or
+- [Error handling](./error-handling.html) allows to further reduce the size of HTTP handlers by
+  handling errors in middlewares.
+- [Routes priority](./getting-started.html#routes-priority) enables meaningful matching priority for
+  routing rules: first static nodes, then named nodes, lastly wildcard nodes.
+- net/http compatible API which means using minimal API without constructing huge wrappers that try
+  to do everything: from serving static files to XML generation (for example, `gin.Context` or
   `echo.Context`).
-
-## Why Not ...?
 
 | Router          | Middlewares        | Error handling     | Routes priority    | net/http API       |
 | --------------- | ------------------ | ------------------ | ------------------ | ------------------ |

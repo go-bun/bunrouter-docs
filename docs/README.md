@@ -4,7 +4,7 @@ title: Fast and flexible HTTP router for Go
 
 actions:
   - text: Get Started
-    link: /guide/getting-started.md
+    link: /guide/getting-started.html
     type: primary
   - text: Introduction
     link: /guide/
