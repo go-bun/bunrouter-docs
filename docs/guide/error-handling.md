@@ -3,7 +3,7 @@
 With BunRouter, you can and should use middlewares to handle all errors from a single place.
 BunRouter does not provide a built-in error handler, but you can easily create your own.
 
-For example, let's create an error handler for a JSON API that generates a response like this
+For example, let's create an error handler for a JSON API that generates responses like this
 whenever there is an error:
 
 ```json
@@ -83,11 +83,11 @@ func errorHandler(next bunrouter.HandlerFunc) bunrouter.HandlerFunc {
 }
 ```
 
-It is a good idea to isolate our API by creating a separate routing group and installing error
+It is a good idea to isolate the API by creating a separate routing group and installing error
 handler only for that group:
 
 ```go
-api := router.NewGroup("/api", bunrouter.WithMiddleware(errorHandler))
+api := router.NewGroup("/api", bunrouter.Use(errorHandler))
 api.GET("/", indexHandler)
 ```
 

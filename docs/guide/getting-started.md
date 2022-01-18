@@ -34,7 +34,7 @@ router.GET("/", func(w http.ResponseWriter, req bunrouter.Request) error {
   there are no matching routes.
 - `WithMethodNotAllowedHandler(handler bunrouter.HandlerFunc)` overrides the handler that is called
   when a route matches, but the route does not have a handler for the requested method.
-- `WithMiddleware(middleware bunrouter.MiddlewareFunc)` adds the middleware to the router's stack of
+- `Use(middleware bunrouter.MiddlewareFunc)` adds the middleware to the router's stack of
   middlewares. Router will apply the middleware to all route handlers including `NotFoundHandler`
   and `MethodNotAllowedHandler`.
 
@@ -47,7 +47,7 @@ import (
 )
 
 router := bunrouter.New(
-	bunrouter.WithMiddleware(reqlog.NewMiddleware()),
+	bunrouter.Use(reqlog.NewMiddleware()),
 )
 ```
 
@@ -239,3 +239,21 @@ router.WithGroup("/api/categories", func(group *bunrouter.Group) {
 
 Groups can even have their own [middlewares](middlewares.md#installing-middlewares) to further
 customize request processing.
+
+## Testing routes
+
+BunRouter exposes `ServeHTTPError` method that serves the request returning the error from the
+matched route handler:
+
+```go
+router := bunrouter.New()
+router.GET("/user/:param", func(w http.ResponseWriter, req bunrouter.Request) error {
+	require.Equal(t, "hello", req.Param("param"))
+	return nil
+})
+
+w := httptest.NewRecorder()
+req, _ := http.NewRequest(http.MethodGet, "/user/hello", nil)
+err := router.ServeHTTPError(w, req)
+require.NoError(t, err)
+```

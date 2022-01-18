@@ -27,7 +27,7 @@ import (
 )
 
 router := bunrouter.New(
-	bunrouter.WithMiddleware(bunrouterotel.NewMiddleware(
+	bunrouter.Use(bunrouterotel.NewMiddleware(
 		bunrouterotel.WithClientIP(),
 	)),
 )

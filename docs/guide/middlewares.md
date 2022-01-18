@@ -12,7 +12,7 @@ import (
 )
 
 router := bunrouter.New(
-	bunrouter.WithMiddleware(reqlog.NewMiddleware()),
+	bunrouter.Use(reqlog.NewMiddleware()),
 )
 ```
 
@@ -66,7 +66,7 @@ func corsMiddleware(next bunrouter.HandlerFunc) bunrouter.HandlerFunc {
 }
 
 router := bunrouter.New(
-	bunrouter.WithMiddleware(corsMiddleware),
+	bunrouter.Use(corsMiddleware),
 )
 ```
 
@@ -77,27 +77,25 @@ You can install a middleware for all route handlers (including `NotFoundHandler`
 
 ```go
 router := bunrouter.New(
-    bunrouter.WithMiddleware(middleware1),
-    bunrouter.WithMiddleware(middleware2),
+    bunrouter.Use(middleware1),
+    bunrouter.Use(middleware2),
 )
 ```
 
 Or for a single group that will inherit router middlewares:
 
 ```go
-router.NewGroup("/users/:user_id",
-    bunrouter.WithMiddleware(middleware1),
-    bunrouter.WithMiddleware(middleware2),
-    bunrouter.WithGroup(func(group *bunrouter.Group) {}),
-)
+router.Use(middleware1).
+    Use(middleware2).
+    WithGroup("/users/:user_id", func(group *bunrouter.Group) {})
 ```
 
 The same using different API:
 
 ```go
 router.WithGroup("/users/:user_id", func(group *bunrouter.Group) {
-    group = group.WithMiddleware(middleware1).
-        .WithMiddleware(middleware2)
+    group = group.Use(middleware1).
+        .Use(middleware2)
 })
 ```
 
@@ -106,21 +104,21 @@ cautious when creating deeply nested groups, because it can be hard to follow su
 
 ```go
 router := bunrouter.New(
-    bunrouter.WithMiddleware(reqlog.NewMiddleware()),
+    bunrouter.Use(reqlog.NewMiddleware()),
 )
 
 group := router.NewGroup("/api")
 group.GET("/users/login", loginHandler)
 
-group = group.WithMiddleware(authMiddleware)
+group = group.Use(authMiddleware)
 group.GET("/users/current", currentUserHandler)
 
 group.NewGroup("/users",
-    bunrouter.WithMiddleware(middleware1),
+    bunrouter.Use(middleware1),
     bunrouter.WithGroup(func(group *bunrouter.Group) {
         group.GET("/users/:id", showUserHandler)
 
-        group = group.WithMiddleware(middleware2)
+        group = group.Use(middleware2)
 
         group.POST("/users", createUserHandler)
     }),

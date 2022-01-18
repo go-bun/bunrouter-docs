@@ -8,14 +8,27 @@ export const en: SidebarConfig = {
       children: [
         '/guide/README.md',
         '/guide/getting-started.md',
-        '/guide/handlers.md',
         '/guide/middlewares.md',
         '/guide/error-handling.md',
-        '/guide/debugging.md',
-        '/guide/serving-static-files.md',
-        '/guide/go-zero-downtime-restarts.md',
-        '/guide/performance-error-monitoring.md',
       ],
+    },
+    {
+      isGroup: true,
+      text: 'Tutorials',
+      children: [
+        '/guide/performance-error-monitoring.md',
+        '/guide/debugging.md',
+        '/guide/handlers.md',
+        '/guide/gzip-compression.md',
+        '/guide/cors.md',
+        '/guide/panics.md',
+        '/guide/serving-static-files.md',
+      ],
+    },
+    {
+      isGroup: true,
+      text: 'Misc',
+      children: ['/guide/go-zero-downtime-restarts.md'],
     },
   ],
 }

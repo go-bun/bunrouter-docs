@@ -13,7 +13,7 @@ Then install the provided middleware:
 import "github.com/uptrace/bunrouter/extra/reqlog"
 
 router := bunrouter.New(
-	bunrouter.WithMiddleware(reqlog.NewMiddleware()),
+	bunrouter.Use(reqlog.NewMiddleware()),
 )
 ```
 

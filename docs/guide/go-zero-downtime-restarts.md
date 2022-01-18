@@ -2,16 +2,19 @@
 title: Zero downtime restarts and deploys
 ---
 
-# Zero downtime restarts and deploys for Go
+# Zero downtime restarts and deploys for Go using systemd
 
 During restarts, your API may be unavailable for short period of time required to stop an old app
-instance and to start a new one. You can fix that by introducing another app that listens on behalf
-of the main app and somehow proxies the data.
+instance and start a new one. You can fix that by introducing another app (proxy) that listens on
+behalf of the main app and somehow proxies the data to the main app.
 
-Luckily for us, systemd has a feature called socket activation that does exactly what we need. By
-configuring a systemd socket, we tell systemd to listen on the configured ports and start our
-service with a copy of the listening socket. During restarts, the data is not lost but stored in OS
-buffers.
+A popular way to do that is to pass the listening socket as a file descriptor to a child process and
+then re-create the socket there using the descriptor. Systemd can do that for you via the feature
+called [socket activation](https://www.freedesktop.org/software/systemd/man/systemd.socket.html).
+
+By configuring a systemd socket, you can tell systemd to listen on the configured ports and start
+your service with a copy of the listening sockets. During restarts, the data is not lost but stored
+in OS buffers.
 
 ## Systemd socket
 

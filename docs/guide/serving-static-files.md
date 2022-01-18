@@ -15,7 +15,7 @@ func main() {
 	fileServer := http.FileServer(http.FS(filesFS))
 
 	router := bunrouter.New(
-		bunrouter.WithMiddleware(reqlog.NewMiddleware(
+		bunrouter.Use(reqlog.NewMiddleware(
 			reqlog.FromEnv("BUNDEBUG"),
 		)),
 	)
@@ -43,7 +43,7 @@ func main() {
 	fileServer := http.FileServer(http.FS(filesFS))
 
 	router := bunrouter.New(
-		bunrouter.WithMiddleware(reqlog.NewMiddleware(
+		bunrouter.Use(reqlog.NewMiddleware(
 			reqlog.FromEnv("BUNDEBUG"),
 		)),
 	)
@@ -72,7 +72,7 @@ func main() {
 	fileServer = http.StripPrefix("/static/files", fileServer)
 
 	router := bunrouter.New(
-		bunrouter.WithMiddleware(reqlog.NewMiddleware(
+		bunrouter.Use(reqlog.NewMiddleware(
 			reqlog.FromEnv("BUNDEBUG"),
 		)),
 	)

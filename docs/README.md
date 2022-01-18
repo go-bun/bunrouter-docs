@@ -33,7 +33,7 @@ features:
 
 ```go
 router := bunrouter.New(
-	bunrouter.WithMiddleware(reqlog.NewMiddleware()),
+	bunrouter.Use(reqlog.NewMiddleware()),
 )
 
 router.WithGroup("/api", func(g *bunrouter.Group) {
@@ -58,7 +58,7 @@ func debugHandler(w http.ResponseWriter, req bunrouter.Request) error {
 
 ```go
 router := bunrouter.New(
-	bunrouter.WithMiddleware(reqlog.NewMiddleware()),
+	bunrouter.Use(reqlog.NewMiddleware()),
 ).Compat()
 
 router.WithGroup("/api", func(g *bunrouter.CompatGroup) {
@@ -83,7 +83,7 @@ func debugHandler(w http.ResponseWriter, req *http.Request) {
 
 ```go
 router := bunrouter.New(
-	bunrouter.WithMiddleware(reqlog.NewMiddleware()),
+	bunrouter.Use(reqlog.NewMiddleware()),
 ).Verbose()
 
 router.WithGroup("/api", func(g *bunrouter.VerboseGroup) {
