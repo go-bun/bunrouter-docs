@@ -8,7 +8,7 @@ const isProd = process.env.NODE_ENV === 'production'
 
 export default defineUserConfig<DefaultThemeOptions>({
   lang: 'en-US',
-  title: 'BunRouter',
+  title: 'Golang HTTP router',
   description: 'Fast and flexible HTTP router for Go',
 
   head: [
@@ -51,6 +51,7 @@ export default defineUserConfig<DefaultThemeOptions>({
   },
 
   evergreen: isProd,
+  bundler: '@vuepress/bundler-webpack',
   bundlerConfig: {
     configureWebpack: (config) => {
       config.module.rules.push({
@@ -68,7 +69,6 @@ export default defineUserConfig<DefaultThemeOptions>({
   },
 
   plugins: [
-    ['@vuepress/plugin-debug'],
     ['@vuepress/plugin-google-analytics', { id: 'G-ZX59B8KDS3' }],
     [
       '@vuepress/plugin-register-components',
@@ -76,6 +76,7 @@ export default defineUserConfig<DefaultThemeOptions>({
         componentsDir: path.resolve(__dirname, './components'),
       },
     ],
+    ['@vuepress/plugin-search'],
     ['vuepress-plugin-sitemap2', { hostname: 'https://bunrouter.uptrace.dev' }],
   ],
   clientAppEnhanceFiles: path.resolve(__dirname, './clientAppEnhance.ts'),

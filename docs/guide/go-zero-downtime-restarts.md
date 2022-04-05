@@ -2,6 +2,8 @@
 title: Zero downtime restarts and deploys
 ---
 
+<UptraceCta />
+
 # Zero downtime restarts and deploys for Go using systemd
 
 During restarts, your API may be unavailable for short period of time required to stop an old app

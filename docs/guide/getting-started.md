@@ -89,6 +89,14 @@ middlewares. BunRouter also provides the following helpers to work with `bunrout
 - [bunrouter.HTTPHandlerFunc](https://pkg.go.dev/github.com/uptrace/bunrouter#HTTPHandlerFunc)
   converts `http.HandlerFunc` to `bunrouter.HandlerFunc`.
 
+For example, to use a classical HTTP handler with BunRouter:
+
+```go
+router.GET("/", bunrouter.HTTPHandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+    // ...
+}))
+```
+
 ### Compat handlers
 
 Using compatibility API, you can directly work with `http.HandlerFunc` handlers, for
