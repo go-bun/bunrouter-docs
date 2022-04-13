@@ -1,4 +1,8 @@
-# Gzip compression
+---
+title: Golang HTTP gzip compression
+---
+
+<CoverImage title="Golang HTTP gzip compression" />
 
 You can compress HTTP responses using
 [gzhttp](https://github.com/klauspost/compress/tree/master/gzhttp) module:

@@ -1,4 +1,8 @@
-# Logging requests
+---
+title: 'Golang Router: Logging and debugging'
+---
+
+<CoverImage title="Logging and debugging" />
 
 For quick debugging, you can print processed requests to stdout. First, you need to install reqlog
 package:
@@ -37,3 +41,7 @@ reqlog.NewMiddleware(
     reqlog.FromEnv("BUNDEBUG"),
 )
 ```
+
+## See also
+
+- [Golang HTTP Performance and Errors Monitoring](golang-http-performance.html)

@@ -1,10 +1,10 @@
 ---
-title: Zero downtime restarts and deploys
+title: 'Golang: Zero downtime restarts and deploys [simple way]'
 ---
 
 <UptraceCta />
 
-# Zero downtime restarts and deploys for Go using systemd
+<CoverImage title="Zero downtime restarts and deploys for Go using systemd" />
 
 During restarts, your API may be unavailable for short period of time required to stop an old app
 instance and start a new one. You can fix that by introducing another app (proxy) that listens on

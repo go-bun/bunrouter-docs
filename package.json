@@ -20,6 +20,7 @@
     "postcss-loader": "^6.2.0",
     "vite": "^2.6.14",
     "vuepress": "2.0.0-beta.37",
-    "vuepress-plugin-sitemap2": "2.0.0-beta.24"
+    "vuepress-plugin-seo2": "2.0.0-beta.37",
+    "vuepress-plugin-sitemap2": "2.0.0-beta.37"
   }
 }

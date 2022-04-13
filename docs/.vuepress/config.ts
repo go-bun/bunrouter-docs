@@ -8,7 +8,7 @@ const isProd = process.env.NODE_ENV === 'production'
 
 export default defineUserConfig<DefaultThemeOptions>({
   lang: 'en-US',
-  title: 'Golang HTTP router',
+  title: 'Golang router',
   description: 'Fast and flexible HTTP router for Go',
 
   head: [
@@ -78,6 +78,15 @@ export default defineUserConfig<DefaultThemeOptions>({
     ],
     ['@vuepress/plugin-search'],
     ['vuepress-plugin-sitemap2', { hostname: 'https://bunrouter.uptrace.dev' }],
+    [
+      'vuepress-plugin-seo2',
+      {
+        hostname: 'https://bunrouter.uptrace.dev',
+        canonical(page) {
+          return 'https://bunrouter.uptrace.dev' + page.path
+        },
+      },
+    ],
     require('./uptrace-plugin'),
   ],
   clientAppEnhanceFiles: path.resolve(__dirname, './clientAppEnhance.ts'),

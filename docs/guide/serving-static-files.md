@@ -1,4 +1,8 @@
-# Serving static files
+---
+title: 'Golang: Serving Static Files'
+---
+
+<CoverImage title="Serving Static Files" />
 
 ## File server
 

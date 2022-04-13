@@ -1,22 +1,22 @@
 ---
 home: true
-title: Fast and flexible HTTP router for Go
+title: Fast and flexible Golang router
 
 actions:
   - text: Get Started
-    link: /guide/getting-started.html
+    link: /guide/golang-router.html
     type: primary
   - text: Introduction
     link: /guide/
     type: secondary
 
 features:
-  - title: Flexible routing
-    details: Routing rules are compatible with httprouter and have proper matching priority.
-  - title: Performant matching
+  - title: Top performance
     details:
       BunRouter is very fast and does zero allocations when matching routes or retrieving
       parameters.
+  - title: Flexible routing
+    details: Routing rules are compatible with httprouter and have proper matching priority.
   - title: Compatible API
     details: Out-of-the box works with standard http.HandlerFunc and httprouter-like handlers.
   - title: Middlewares

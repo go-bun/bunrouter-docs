@@ -1,4 +1,8 @@
-# Error handling
+---
+title: HTTP Error handling
+---
+
+<CoverImage title="HTTP error handling" />
 
 With BunRouter, you can and should use middlewares to handle all errors from a single place.
 BunRouter does not provide a built-in error handler, but you can easily create your own.

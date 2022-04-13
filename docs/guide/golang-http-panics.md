@@ -1,4 +1,8 @@
-# Panic handling
+---
+title: Golang HTTP Panic Handling
+---
+
+<CoverImage title="Golang HTTP Panic Handling" />
 
 <!-- prettier-ignore -->
 ::: warning

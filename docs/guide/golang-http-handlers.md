@@ -1,4 +1,8 @@
-# Route handlers
+---
+title: Golang HTTP handlers
+---
+
+<CoverImage title="Golang HTTP handlers" />
 
 Use structs to group handlers by functionality and to store global handler state:
 
@@ -17,8 +21,8 @@ func (h *UserHandler) Show(w http.ResponseWriter, req bunrouter.Request) error {
 func (h *UserHandler) List(w http.ResponseWriter, req bunrouter.Request) error {}
 ```
 
-Naturally, you can use BunRouter [groups](README.md#routing-groups) and
-[middlewares](middlewares.md) with struct-based handlers:
+Naturally, you can use BunRouter [groups](golang-router.html#routing-groups) and
+[middlewares](golang-http-middlewares.html) with struct-based handlers:
 
 ```go
 group.Use(authMiddleware).

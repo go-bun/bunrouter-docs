@@ -1,4 +1,8 @@
-# Middlewares
+---
+title: Golang HTTP Middlewares
+---
+
+<CoverImage title="Golang HTTP Middlewares" />
 
 ## Introduction
 
