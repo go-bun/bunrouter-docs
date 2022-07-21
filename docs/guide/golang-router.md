@@ -83,8 +83,8 @@ router.DELETE("/users/:id", deleteUserHandler)
 
 ### Handlers
 
-`bunrouter.HandlerFunc` is a slightly enhanced version of `http.HandlerFunc` that accepts
-`bunrouter.Request` and returns an error that you can handle with
+`bunrouter.HandlerFunc` is a slightly enhanced version of `http.HandlerFunc` that accepts a
+`bunrouter.Request` and returns errors that you can handle with
 [middlewares](golang-http-middlewares.html):
 
 ```go
@@ -268,6 +268,47 @@ router.WithGroup("/api/categories", func(group *bunrouter.Group) {
 
 Groups can even have their own [middlewares](golang-http-middlewares.html#installing-middlewares) to
 further customize request processing.
+
+## Not found handler
+
+To customize not found handler:
+
+```go
+router := bunrouter.New(
+	bunrouter.WithNotFoundHandler(notFoundHandler),
+)
+
+func notFoundHandler(w http.ResponseWriter, req bunrouter.Request) error {
+	w.WriteHeader(http.StatusNotFound)
+	fmt.Fprintf(
+		w,
+		"<html>BunRouter can't find a route that matches <strong>%s</strong></html>",
+		req.URL.Path,
+	)
+	return nil
+}
+```
+
+## Method not allowed handler
+
+To customize method not found handler:
+
+```go
+router := bunrouter.New(
+	bunrouter.WithMethodNotAllowedHandler(methodNotAllowedHandler),
+)
+
+func methodNotAllowedHandler(w http.ResponseWriter, req bunrouter.Request) error {
+	w.WriteHeader(http.StatusMethodNotAllowed)
+	fmt.Fprintf(
+		w,
+		"<html>BunRouter does have a route that matches <strong>%s</strong>, "+
+			"but it does not handle method <strong>%s</strong></html>",
+		req.URL.Path, req.Method,
+	)
+	return nil
+}
+```
 
 ## Testing routes
 

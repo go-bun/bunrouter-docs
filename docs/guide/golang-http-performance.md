@@ -5,10 +5,10 @@ title: Golang HTTP Performance and Errors Monitoring
 <CoverImage title="Golang HTTP Performance and Errors Monitoring" />
 
 You can monitor HTTP performance and errors using
-[distributed tracing](https://opentelemetry.uptrace.dev/guide/distributed-tracing.html) and
-[metrics](https://opentelemetry.uptrace.dev/guide/metrics.html) by OpenTelemetry.
+[distributed tracing](https://uptrace.dev/opentelemetry/distributed-tracing.html) and
+[metrics](https://uptrace.dev/opentelemetry/metrics.html) by OpenTelemetry.
 
-[OpenTelemetry](https://opentelemetry.uptrace.dev/) is a vendor-neutral API for distributed traces
+[OpenTelemetry](https://uptrace.dev/opentelemetry/) is a vendor-neutral API for distributed traces
 and metrics. It specifies how to collect and send telemetry data to backend platforms. It means that
 you can instrument your application once and then add or change vendors (backends) as required.
 
@@ -41,7 +41,7 @@ httpServer := &http.Server{
 ```
 
 You can then retrieve the active
-[span context](https://opentelemetry.uptrace.dev/guide/go-tracing.html#context) and pass it to other
+[span context](https://uptrace.dev/opentelemetry/go-tracing.html#context) and pass it to other
 functions:
 
 ```go
@@ -53,12 +53,12 @@ op2(ctx)
 ## Uptrace
 
 Uptrace is an OpenTelemetry
-[distributed tracing tool](https://get.uptrace.dev/compare/distributed-tracing-tools.html) that
+[distributed tracing tool](https://uptrace.dev/get/compare/distributed-tracing-tools.html) that
 monitors performance and helps finding performance bottlenecks.
 
 As expected, BunRouter instrumentation creates
-[spans](https://opentelemetry.uptrace.dev/guide/distributed-tracing.html#spans) for processed
-requests and records any errors as they occur. Here is how the collected information is displayed at
+[spans](https://uptrace.dev/opentelemetry/distributed-tracing.html#spans) for processed requests and
+records any errors as they occur. Here is how the collected information is displayed at
 [Uptrace](https://uptrace.dev/explore/1/groups/?system=db%3Apostgresql&utm_source=bun&utm_campaign=bun-tracing):
 
 ![Bunrouter trace](/img/bunrouter-trace.png)
@@ -69,5 +69,5 @@ You can find a runnable example on
 ## See also
 
 - [BunRouter: logging and debugging](golang-router-logging.html)
-- [Open Source distributed tracing tools](https://get.uptrace.dev/compare/distributed-tracing-tools.html)
-- [OpenTelemetry guide for Gin, GORM, and Zap](https://get.uptrace.dev/opentelemetry/gin-gorm.html)
+- [Open Source distributed tracing tools](https://uptrace.dev/get/compare/distributed-tracing-tools.html)
+- [OpenTelemetry guide for Gin, GORM, and Zap](https://uptrace.dev/get/opentelemetry-gin-gorm.html)

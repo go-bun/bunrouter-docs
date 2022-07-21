@@ -1,6 +1,6 @@
 ---
 home: true
-title: Fast and flexible Golang router
+title: Golang HTTP Router [fastest in 2022]
 
 actions:
   - text: Get Started
@@ -29,7 +29,7 @@ features:
 ---
 
 <CodeGroup>
-  <CodeGroupItem title="bunrouter">
+  <CodeGroupItem title="bunrouter.HandlerFunc">
 
 ```go
 router := bunrouter.New(

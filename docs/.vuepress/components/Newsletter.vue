@@ -20,7 +20,7 @@
       </el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" native-type="submit" :loading="form.loading"> Subscribe </el-button>
+      <el-button type="primary" native-type="submit" :loading="form.loading">Subscribe</el-button>
     </el-form-item>
   </el-form>
   <el-tag v-else type="success" effect="dark">

@@ -1,7 +1,15 @@
 import { defineUserConfig } from 'vuepress'
 import type { DefaultThemeOptions } from 'vuepress'
 import { path } from '@vuepress/utils'
+const { webpackBundler } = require('@vuepress/bundler-webpack')
+const { googleAnalyticsPlugin } = require('@vuepress/plugin-google-analytics')
+const { registerComponentsPlugin } = require('@vuepress/plugin-register-components')
+const { searchPlugin } = require('@vuepress/plugin-search')
+const { sitemapPlugin } = require('vuepress-plugin-sitemap2')
+const { seoPlugin } = require('vuepress-plugin-seo2')
+const { redirectPlugin } = require('vuepress-plugin-redirect')
 
+import { localTheme } from './theme'
 import { navbar, sidebar } from './configs'
 
 const isProd = process.env.NODE_ENV === 'production'
@@ -32,27 +40,24 @@ export default defineUserConfig<DefaultThemeOptions>({
     ],
   ],
 
-  theme: path.resolve(__dirname, './theme'),
-  themeConfig: {
+  theme: localTheme({
     logo: '/logo.png',
     darkMode: false,
+    contributors: false,
 
-    locales: {
-      '/': {
-        navbar: navbar.en,
-        sidebar: sidebar.en,
-        editLinkText: 'Edit this page on GitHub',
-      },
-    },
+    navbar: navbar.en,
+    sidebar: sidebar.en,
 
-    themePlugins: {
-      git: false,
-    },
+    docsRepo: 'go-bun/bunrouter-docs',
+    docsBranch: 'master',
+    docsDir: 'docs',
+  }),
+  alias: {
+    '@public': path.resolve(__dirname, './public'),
   },
 
   evergreen: isProd,
-  bundler: '@vuepress/bundler-webpack',
-  bundlerConfig: {
+  bundler: webpackBundler({
     configureWebpack: (config) => {
       config.module.rules.push({
         test: /\.mjs$/i,
@@ -60,7 +65,7 @@ export default defineUserConfig<DefaultThemeOptions>({
       })
       return {}
     },
-  },
+  }),
 
   markdown: {
     code: {
@@ -69,25 +74,26 @@ export default defineUserConfig<DefaultThemeOptions>({
   },
 
   plugins: [
-    ['@vuepress/plugin-google-analytics', { id: 'G-ZX59B8KDS3' }],
-    [
-      '@vuepress/plugin-register-components',
-      {
-        componentsDir: path.resolve(__dirname, './components'),
+    googleAnalyticsPlugin({ id: 'G-ZX59B8KDS3' }),
+    registerComponentsPlugin({
+      componentsDir: path.resolve(__dirname, './components'),
+    }),
+    searchPlugin(),
+    sitemapPlugin({ hostname: 'https://bunrouter.uptrace.dev' }),
+    seoPlugin({
+      hostname: 'https://bunrouter.uptrace.dev',
+      canonical(page) {
+        return 'https://bunrouter.uptrace.dev' + page.path
       },
-    ],
-    ['@vuepress/plugin-search'],
-    ['vuepress-plugin-sitemap2', { hostname: 'https://bunrouter.uptrace.dev' }],
-    [
-      'vuepress-plugin-seo2',
-      {
-        hostname: 'https://bunrouter.uptrace.dev',
-        canonical(page) {
-          return 'https://bunrouter.uptrace.dev' + page.path
-        },
+    }),
+    redirectPlugin({
+      hostname: 'https://bunrouter.uptrace.dev',
+      config: {
+        '/guide/getting-started.html': '/guide/golang-router.html',
+        '/guide/cors.html': '/guide/golang-cors.html',
+        '/guide/performance-error-monitoring.html': '/guide/golang-http-performance.html',
       },
-    ],
+    }),
     require('./uptrace-plugin'),
   ],
-  clientAppEnhanceFiles: path.resolve(__dirname, './clientAppEnhance.ts'),
 })
